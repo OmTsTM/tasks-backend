@@ -42,6 +42,15 @@ pipeline {
                 }
             }
         }
+        stage ('Deploy Frontend') {
+            steps {
+                dir('frontend') {
+                    git 'https://github.com/OmTsTM/tasks-frontend'
+                    bat 'mvn clean package'
+                    deploy adapters: [tomcat8(credentialsId: 'TomcatLogin2', path: '', url: 'http://localhost:8080/')], contextPath: 'tasks', war: 'target/tasks.war'
+                }
+            }
+        }
     }
 }
 
