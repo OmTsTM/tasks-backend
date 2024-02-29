@@ -51,6 +51,14 @@ pipeline {
                 }
             }
         }
+        stage ('Functional Test') {
+            steps {
+                dir('functional-test') {
+                    git 'https://github.com/omtstm/tasks-functional-tests'
+                    bat 'mvn test'
+                }
+            }
+        }
     }
 }
 
