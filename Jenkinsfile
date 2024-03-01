@@ -3,6 +3,7 @@ pipeline {
     stages {
         stage ('Build Backend') {
             steps {
+                cleanWs()
                 bat 'mvn clean package -DskipTests=true'
             }
         }
@@ -57,6 +58,12 @@ pipeline {
                     git 'https://github.com/omtstm/tasks-functional-tests'
                     bat 'mvn test'
                 }
+            }
+        }
+        stage ('Deploy Prod') {
+            steps {
+                bat 'dockercompose build'
+                bat 'docker-compose up'
             }
         }
     }
